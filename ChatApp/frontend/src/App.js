@@ -3,7 +3,7 @@ import LogIn from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import ChatPage from "./pages/ChatPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 // trebuie sa fac privete route la main
 
 import React, { useState, useEffect } from "react";
@@ -32,10 +32,14 @@ function App() {
   const AppRoutes = () => {
     const location = useLocation();
     const { username } = location.state || {};
+    // const username = "user";
+
+    const [chatName, setChatName] = useState("General Chat");
+
 
     const sendMessage = (message) => {
       console.log(message);
-      socket.emit("message", { username, message });
+      socket.emit("message", { username, message, reciver: chatName });
     };
 
     return (
@@ -50,6 +54,8 @@ function App() {
               userName={username}
               chat={chat}
               sendMessage={sendMessage}
+              chatName={chatName}
+              setChatName={setChatName}
             />
           }
         />

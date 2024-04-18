@@ -11,7 +11,7 @@ const LogIn = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // State to track authentication status
   const navigate = useNavigate();
 
-  const { mutateAsync, isPending} = useLogin();
+  const { mutateAsync, isPending } = useLogin();
 
   const handleUsernameChange = (e: any) => {
     setUsername(e.target.value);
@@ -37,6 +37,9 @@ const LogIn = () => {
     } catch (error) {
       console.error("Login failed:", error);
     }
+
+    // Make a GET request to the backend
+  
   };
 
   return (
