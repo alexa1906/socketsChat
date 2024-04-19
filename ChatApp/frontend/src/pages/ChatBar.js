@@ -6,7 +6,7 @@ import { UserOutlined } from "@ant-design/icons";
 const ChatBar = ({ username, setChatName, messages }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friendUsername, setFriendUsername] = useState("");
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState(["General Chat"]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const ChatBar = ({ username, setChatName, messages }) => {
     if (friendUsername !== username) {
       setChatName(friendUsername);
       setIsModalOpen(false);
-      setError(false); 
+      setError(false);
     } else {
       setError(true);
     }
@@ -60,7 +60,7 @@ const ChatBar = ({ username, setChatName, messages }) => {
 
   const handleFriendUsernameChange = (e) => {
     setFriendUsername(e.target.value);
-    setError(false); 
+    setError(false);
   };
 
   const chooseChat = (chat) => {
@@ -86,7 +86,7 @@ const ChatBar = ({ username, setChatName, messages }) => {
       </button>
       <Modal
         title="Start a new chat with: "
-        open={isModalOpen} 
+        open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >

@@ -21,21 +21,13 @@ function App() {
     });
   });
 
-  // const ProtectedRoute = ({ redirectPath = "/" }) => {
-  //   if (!localStorage.getItem("jwtToken")) {
-  //     return <Navigate to={redirectPath} replace />;
-  //   }
-
-  //   return <Outlet />;
-  // };
+  console.log(chat);
 
   const AppRoutes = () => {
     const location = useLocation();
     const { username } = location.state || {};
-    // const username = "user";
 
     const [chatName, setChatName] = useState("General Chat");
-
 
     const sendMessage = (message) => {
       console.log(message);
@@ -46,7 +38,6 @@ function App() {
       <Routes>
         <Route path="/" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* <Route element={<ProtectedRoute />}> */}
         <Route
           path="/chatpage"
           element={
@@ -59,7 +50,6 @@ function App() {
             />
           }
         />
-        {/* </Route> */}
       </Routes>
     );
   };

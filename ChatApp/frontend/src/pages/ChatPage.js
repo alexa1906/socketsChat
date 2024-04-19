@@ -10,7 +10,7 @@ const ChatPage = ({ chat, sendMessage, userName, chatName, setChatName }) => {
   useEffect(() => {
     fetchMessages().then((messages) => {
       setMessages(messages.data);
-      console.log(123, messages);
+      console.log(123, messages.data);
     });
   }, [chatName]);
 

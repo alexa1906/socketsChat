@@ -42,7 +42,7 @@ const ChatBody = ({ chat, username, chatName, messages }) => {
 
       setFilteredMessages(filtered);
     }
-  }, [chatName, messages]);
+  }, [chatName]);
 
   return (
     <>
