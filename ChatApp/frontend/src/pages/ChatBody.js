@@ -1,68 +1,45 @@
-// import React from "react";
+import React from "react";
+import { useAllChats } from "../App";
 
-// const ChatBody = ({ chat, username, chatName }) => {
-//   return (
-//     <>
-//       <header className="chat__mainHeader">
-//         <p>{chatName}</p>
-//       </header>
-//       <div className="message__container">
-//         {chat.map((payload, index) => (
-//           <h3
-//             key={index}
-//             className={
-//               username === payload.username
-//                 ? "message__sender"
-//                 : "message__recipient"
-//             }
-//           >
-//             {payload.username}: <span>{payload.message}</span>
-//           </h3>
-//         ))}
-//       </div>
-//     </>
-//   );
-// };
+const ChatBody = ({ username, chatName }) => {
+  const { allChats } = useAllChats();
 
-// export default ChatBody;
-
-import React, { useEffect, useState } from "react";
-
-const ChatBody = ({ chat, username, chatName, messages }) => {
-  const [filteredMessages, setFilteredMessages] = useState([]);
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      const filtered = messages.filter(
-        (message) =>
-          (message.username === username && message.reciver === chatName) ||
-          (message.username === chatName && message.reciver === username) ||
-          (chatName === "General Chat" && message.reciver === "General Chat")
-      );
-
-      setFilteredMessages(filtered);
-    }
-  }, [chatName]);
+  const messages = allChats[chatName]?.messages || [];
 
   return (
     <>
-      <header className="chat__mainHeader">
-        <p>{chatName}</p>
-      </header>
-      <div className="message__container">
-        {filteredMessages.map((payload, index) => (
-          <h3
-            key={index}
-            className={
-              username === payload.username
-                ? "message__sender"
-                : "message__recipient"
-            }
-          >
-            {payload.username}: <span>{payload.message}</span>
-          </h3>
-        ))}
-      </div>
+      {chatName ? (
+        <>
+          <header className="chat__mainHeader">
+            <p>{chatName}</p>
+          </header>
+          <div className="message__container">
+            {messages.map((payload, index) => {
+              return (
+                <h3
+                  key={index}
+                  className={
+                    username === payload.username
+                      ? "message__sender"
+                      : "message__recipient"
+                  }
+                >
+                  {payload.username}: <span>{payload.message}</span>
+                </h3>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        <>
+          <header className="chat__mainHeader">
+            <p>{chatName}</p>
+          </header>
+          <div className="message__container">
+            <h1>Choose a Chat</h1>
+          </div>
+        </>
+      )}
     </>
   );
 };

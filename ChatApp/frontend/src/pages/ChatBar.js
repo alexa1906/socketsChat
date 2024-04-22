@@ -1,42 +1,15 @@
 import plus from "../img/plus.png";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Input, Alert } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { useAllChats } from "../App";
 
-const ChatBar = ({ username, setChatName, messages }) => {
+const ChatBar = ({ username, setChatName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friendUsername, setFriendUsername] = useState("");
-  const [chats, setChats] = useState(["General Chat"]);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    if (messages.length > 0) {
-      const userMessages = messages.filter(
-        (message) =>
-          message.username === username || message.reciver === username
-      );
-
-      const uniqueChats = userMessages.reduce((unique, message) => {
-        let otherUser;
-        if (message.username === username) {
-          otherUser = message.reciver;
-        } else if (message.reciver === username) {
-          otherUser = message.username;
-        }
-
-        if (!unique.includes(otherUser) && otherUser !== username) {
-          unique.push(otherUser);
-        }
-        return unique;
-      }, []);
-
-      if (!uniqueChats.includes("General Chat")) {
-        uniqueChats.push("General Chat");
-      }
-
-      setChats(uniqueChats);
-    }
-  }, [messages, username]);
+  const { allChats } = useAllChats();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -45,7 +18,7 @@ const ChatBar = ({ username, setChatName, messages }) => {
   const handleOk = () => {
     setFriendUsername("");
     if (friendUsername !== username) {
-      setChatName(friendUsername);
+      setChatName(`${friendUsername}+${username}`);
       setIsModalOpen(false);
       setError(false);
     } else {
@@ -63,8 +36,8 @@ const ChatBar = ({ username, setChatName, messages }) => {
     setError(false);
   };
 
-  const chooseChat = (chat) => {
-    setChatName(chat);
+  const chooseChat = (chatName) => {
+    setChatName(chatName);
   };
 
   return (
@@ -73,11 +46,17 @@ const ChatBar = ({ username, setChatName, messages }) => {
       <div>
         <h4 className="chat__header">ACTIVE CHATS</h4>
         <div className="chat__users">
-          {chats.map((chat) => (
-            <p key={chat} onClick={() => chooseChat(chat)}>
-              {chat}
-            </p>
-          ))}
+          {Object.keys(allChats).map((chatName) => {
+            if (chatName.includes(username) || chatName === "General Chat") {
+              return (
+                <p key={chatName} onClick={() => chooseChat(chatName)}>
+                  {chatName}
+                </p>
+              );
+            } else {
+              return null; // Don't render if the chatName doesn't include username
+            }
+          })}
         </div>
       </div>
 
